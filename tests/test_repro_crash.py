@@ -20,7 +20,7 @@ def test_this_is_fine():
 
     def f(it):
         for batch in it:
-            ArrowWriter(path="dummy.txt")
+            fsspec.get_fs_token_paths("dummy.txt", storage_options=None)
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
