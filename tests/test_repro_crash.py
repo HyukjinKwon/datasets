@@ -85,11 +85,10 @@ def test_crash_from_map_in_arrow_arrow_writer():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        import random
-
+        a = ArrowWriter(path="dummy.txt")
         for batch in it:
-            ArrowWriter(path="".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)))
             yield batch
+        a.close()
 
     df.mapInArrow(f, df.schema).collect()
 
