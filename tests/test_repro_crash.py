@@ -4,9 +4,12 @@ from datasets.arrow_writer import ArrowWriter
 
 
 def test_this_is_fine():
-    spark = pyspark.sql.SparkSession.builder.config(
-        "spark.python.worker.faulthandler.enabled", "true"
-    ).master("local[*]").appName("pyspark").getOrCreate()
+    spark = (
+        pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
+        .master("local[*]")
+        .appName("pyspark")
+        .getOrCreate()
+    )
     data = [
         ("0", 0, 0.0),
         ("1", 1, 1.0),
@@ -23,9 +26,12 @@ def test_this_is_fine():
 
 
 def test_crash_from_map_in_arrow_group_by():
-    spark = pyspark.sql.SparkSession.builder.config(
-        "spark.python.worker.faulthandler.enabled", "true"
-    ).master("local[*]").appName("pyspark").getOrCreate()
+    spark = (
+        pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
+        .master("local[*]")
+        .appName("pyspark")
+        .getOrCreate()
+    )
     data = [
         ("0", 0, 0.0),
         ("1", 1, 1.0),
@@ -42,9 +48,12 @@ def test_crash_from_map_in_arrow_group_by():
 
 
 def test_crash_from_map_in_arrow_order_by():
-    spark = pyspark.sql.SparkSession.builder.config(
-        "spark.python.worker.faulthandler.enabled", "true"
-    ).master("local[*]").appName("pyspark").getOrCreate()
+    spark = (
+        pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
+        .master("local[*]")
+        .appName("pyspark")
+        .getOrCreate()
+    )
     data = [
         ("0", 0, 0.0),
         ("1", 1, 1.0),
@@ -61,9 +70,12 @@ def test_crash_from_map_in_arrow_order_by():
 
 
 def test_crash_from_map_in_arrow_arrow_writer():
-    spark = pyspark.sql.SparkSession.builder.config(
-        "spark.python.worker.faulthandler.enabled", "true"
-    ).master("local[*]").appName("pyspark").getOrCreate()
+    spark = (
+        pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
+        .master("local[*]")
+        .appName("pyspark")
+        .getOrCreate()
+    )
     data = [
         ("0", 0, 0.0),
         ("1", 1, 1.0),
@@ -81,9 +93,12 @@ def test_crash_from_map_in_arrow_arrow_writer():
 
 
 def test_crash_from_order_by_partition():
-    spark = pyspark.sql.SparkSession.builder.config(
-        "spark.python.worker.faulthandler.enabled", "true"
-    ).master("local[*]").appName("pyspark").getOrCreate()
+    spark = (
+        pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
+        .master("local[*]")
+        .appName("pyspark")
+        .getOrCreate()
+    )
     data = [
         ("0", 0, 0.0),
         ("1", 1, 1.0),
