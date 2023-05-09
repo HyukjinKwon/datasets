@@ -1,7 +1,7 @@
 import pyarrow as pa
 import pyspark
 
-from datasets.arrow_write import ArrowWriter, KeyHasher
+from datasets.arrow_writer import ArrowWriter, KeyHasher
 
 
 def test_this_is_fine():
