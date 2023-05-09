@@ -1,4 +1,3 @@
-import pyarrow as pa
 import pyspark
 
 from datasets.arrow_writer import KeyHasher
@@ -87,7 +86,6 @@ def test_crash_from_map_in_arrow_arrow_writer():
 
     def f(it):
         for batch in it:
-            pa.input_stream("dummy.txt")
             KeyHasher("")
             yield batch
 
