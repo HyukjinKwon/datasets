@@ -20,8 +20,9 @@ def test_this_is_fine():
 
     def f(it):
         for batch in it:
-            open("dummy.txt", "wb")
+            f = open("dummy.txt", "wb")
             yield batch
+            f.close()
 
     df.mapInArrow(f, df.schema).collect()
 
