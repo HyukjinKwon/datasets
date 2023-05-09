@@ -1,3 +1,4 @@
+import pyarrow as pa
 import pyspark
 
 from datasets.arrow_writer import ArrowWriter
@@ -72,7 +73,7 @@ def test_crash_from_map_in_arrow_order_by():
 def test_crash_from_map_in_arrow_arrow_writer():
     spark = (
         pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
-        .master("local[1]")
+        .master("local[*]")
         .appName("pyspark")
         .getOrCreate()
     )
@@ -85,12 +86,22 @@ def test_crash_from_map_in_arrow_arrow_writer():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        a = ArrowWriter(path="dummy.txt")
         for batch in it:
+            ArrowWriter(stream=pa.input_stream("dummy.txt"))
             yield batch
-        a.close()
 
     df.mapInArrow(f, df.schema).collect()
+
+
+def test_arrow_multiprocessing():
+    from multiprocessing import Pool
+
+    def f(x):
+        ArrowWriter(path="dummy.txt")
+        return x * x
+
+    with Pool(5) as p:
+        print(p.map(f, list(range(20))))
 
 
 def test_crash_from_order_by_partition():
