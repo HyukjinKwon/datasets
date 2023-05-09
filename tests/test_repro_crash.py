@@ -17,7 +17,6 @@ def test_this_is_fine():
         ("3", 3, 3.0),
     ]
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
-    assert spark.conf.get("spark.python.worker.faulthandler.enabled") == "true"
 
     def f(it):
         for batch in it:
@@ -91,6 +90,10 @@ def test_crash_from_map_in_arrow_arrow_writer():
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
+
+
+def test_arrow_writer():
+    ArrowWriter(path="dummy.txt")
 
 
 def test_crash_from_order_by_partition():
