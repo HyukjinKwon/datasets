@@ -17,6 +17,7 @@ def test_this_is_fine():
         ("3", 3, 3.0),
     ]
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
+    assert spark.conf.get("spark.python.worker.faulthandler.enabled") == "true"
 
     def f(it):
         for batch in it:
