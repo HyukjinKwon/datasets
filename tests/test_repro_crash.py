@@ -20,6 +20,7 @@ def test_this_is_fine():
 
     def f(it):
         for batch in it:
+            ArrowWriter(path="dummy.txt")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
@@ -72,7 +73,7 @@ def test_crash_from_map_in_arrow_order_by():
 def test_crash_from_map_in_arrow_arrow_writer():
     spark = (
         pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
-        .master("local[1]")
+        .master("local[*]")
         .appName("pyspark")
         .getOrCreate()
     )
@@ -85,18 +86,11 @@ def test_crash_from_map_in_arrow_arrow_writer():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        import faulthandler
-
-        faulthandler.enable(file=open("/tmp/faulthandler.log", mode="w"))
         for batch in it:
             ArrowWriter(path="dummy.txt")
             yield batch
 
-    try:
-        df.mapInArrow(f, df.schema).collect()
-    except Exception:
-        with open("/tmp/faulthandler.log") as f:
-            print(f.read())
+    df.mapInArrow(f, df.schema).collect()
 
 
 def test_crash_from_order_by_partition():
