@@ -21,7 +21,7 @@ def test_this_is_fine():
 
     def f(it):
         for batch in it:
-            open("dummpy.txt", "wb")
+            open("dummy.txt", "wb")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
