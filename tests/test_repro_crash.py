@@ -94,7 +94,7 @@ def test_crash_from_map_in_arrow_arrow_writer():
 
     try:
         df.mapInArrow(f, df.schema).collect()
-    except:
+    except Exception:
         with open("/tmp/faulthandler.log") as f:
             print(f.read())
 
