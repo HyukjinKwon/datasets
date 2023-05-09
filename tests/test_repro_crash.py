@@ -21,7 +21,7 @@ def test_this_is_fine():
 
     def f(it):
         for batch in it:
-            fsspec.get_fs_token_paths("dummy.txt", storage_options=None)
+            open("dummpy.txt", "wb")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
@@ -89,7 +89,6 @@ def test_crash_from_map_in_arrow_arrow_writer():
     def f(it):
         for batch in it:
             ArrowWriter(path="dummy.txt")
-            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
