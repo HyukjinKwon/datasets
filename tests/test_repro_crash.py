@@ -74,7 +74,7 @@ def test_crash_from_map_in_arrow_order_by():
 def test_crash_from_map_in_arrow_arrow_writer():
     spark = (
         pyspark.sql.SparkSession.builder.config("spark.python.worker.faulthandler.enabled", "true")
-        .master("local[*]")
+        .master("local[1]")
         .appName("pyspark")
         .getOrCreate()
     )
@@ -89,6 +89,7 @@ def test_crash_from_map_in_arrow_arrow_writer():
     def f(it):
         for batch in it:
             ArrowWriter(path="dummy.txt")
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
