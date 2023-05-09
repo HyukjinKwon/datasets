@@ -1,4 +1,5 @@
 import pyspark
+import fsspec
 
 from datasets.arrow_writer import ArrowWriter
 
