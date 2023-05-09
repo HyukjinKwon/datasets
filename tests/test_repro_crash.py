@@ -1,6 +1,7 @@
+import pyarrow as pa
 import pyspark
 
-from datasets.arrow_writer import KeyHasher
+from datasets.arrow_writer import ArrowWrtier
 
 
 def test_this_is_fine():
@@ -86,7 +87,7 @@ def test_crash_from_map_in_arrow_arrow_writer():
 
     def f(it):
         for batch in it:
-            KeyHasher("")
+            ArrowWriter(pa.output_stream("dummy.txt"))
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
