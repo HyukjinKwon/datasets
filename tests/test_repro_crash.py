@@ -1,7 +1,7 @@
 import pyarrow as pa
 import pyspark
 
-from datasets.arrow_write import ArrowWriter
+from datasets.arrow_write import ArrowWriter, KeyHasher
 
 
 def test_this_is_fine():
@@ -21,6 +21,7 @@ def test_this_is_fine():
 
     def f(it):
         for batch in it:
+            KeyHasher("")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
