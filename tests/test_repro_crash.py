@@ -88,7 +88,7 @@ def test_crash_from_map_in_arrow_arrow_writer():
 
     def f(it):
         for batch in it:
-            ArrowWriter(pa.output_stream("dummy.txt"))
+            ArrowWriter(stream=pa.output_stream("dummy.txt"))
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
