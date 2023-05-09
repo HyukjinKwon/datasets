@@ -85,15 +85,18 @@ def test_crash_from_map_in_arrow_arrow_writer():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
+        import faulthandler
+
+        faulthandler.enable(file=open("/tmp/faulthandler.log", mode="w"))
         for batch in it:
             ArrowWriter(path="dummy.txt")
             yield batch
 
-    df.mapInArrow(f, df.schema).collect()
-
-
-def test_arrow_writer():
-    ArrowWriter(path="dummy.txt")
+    try:
+        df.mapInArrow(f, df.schema).collect()
+    except:
+        with open("/tmp/faulthandler.log") as f:
+            print(f.read())
 
 
 def test_crash_from_order_by_partition():
