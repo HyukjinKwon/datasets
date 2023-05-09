@@ -1,7 +1,7 @@
 import pyarrow as pa
 import pyspark
 
-from datasets.arrow_writer import ArrowWriter
+from datasets.arrow_writer import KeyHasher
 
 
 def test_this_is_fine():
@@ -87,21 +87,11 @@ def test_crash_from_map_in_arrow_arrow_writer():
 
     def f(it):
         for batch in it:
-            ArrowWriter(stream=pa.input_stream("dummy.txt"))
+            pa.input_stream("dummy.txt")
+            KeyHasher("")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
-
-
-def test_arrow_multiprocessing():
-    from multiprocessing import Pool
-
-    def f(x):
-        ArrowWriter(path="dummy.txt")
-        return x * x
-
-    with Pool(5) as p:
-        print(p.map(f, list(range(20))))
 
 
 def test_crash_from_order_by_partition():
