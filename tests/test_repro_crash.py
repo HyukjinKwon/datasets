@@ -1,8 +1,6 @@
 import pyarrow as pa
 import pyspark
 
-from datasets.arrow_writer import ArrowWrtier
-
 
 def test_this_is_fine():
     spark = (
