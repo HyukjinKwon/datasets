@@ -1,4 +1,3 @@
-import pyarrow as pa
 import pyspark
 
 
