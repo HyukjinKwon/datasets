@@ -17,9 +17,10 @@ def test_this_is_fine():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        from datasets.arrow_writer import KeyHasher
+        import importlib
 
-        KeyHasher
+        importlib.import_module("datasets")
+
         for batch in it:
             yield batch
 
@@ -42,12 +43,9 @@ def test_crash_from_map_in_arrow_group_by():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        try:
-            from datasets.arrow_writer import KeyHasher
+        import importlib
 
-            KeyHasher
-        except Exception:
-            pass
+        importlib.import_module("datasets.arrow_writer")
 
         for batch in it:
             yield batch
@@ -96,10 +94,12 @@ def test_crash_from_map_in_arrow_arrow_writer():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        from datasets import arrow_writer
+        import importlib
 
-        arrow_writer
+        mod = importlib.import_module("datasets.arrow_writer")
+
         for batch in it:
+            mod.ArrowWriter("dummy.txt")
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
