@@ -17,14 +17,22 @@ def test_this_is_fine():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        import importlib
+        import sys
 
-        importlib.import_module("datasets")
+        raise Exception(sys.modules)
 
         for batch in it:
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
+
+
+def ff(it):
+    import datasets
+
+    datasets
+    for batch in it:
+        yield batch
 
 
 def test_crash_from_map_in_arrow_group_by():
@@ -42,15 +50,7 @@ def test_crash_from_map_in_arrow_group_by():
     ]
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
-    def f(it):
-        import importlib
-
-        importlib.import_module("datasets.arrow_writer")
-
-        for batch in it:
-            yield batch
-
-    df.mapInArrow(f, df.schema).orderBy("col_1").collect()
+    df.mapInArrow(ff, df.schema).orderBy("col_1").collect()
 
 
 def test_crash_from_map_in_arrow_order_by():
@@ -69,13 +69,20 @@ def test_crash_from_map_in_arrow_order_by():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
-        import datasets
-
-        datasets
         for batch in it:
             yield batch
 
     df.mapInArrow(f, df.schema).groupBy("col_1").count().collect()
+
+
+def fff(it):
+    import importlib
+
+    mod = importlib.import_module("datasets.arrow_writer")
+
+    for batch in it:
+        mod.ArrowWriter(path="dummy.txt")
+        yield batch
 
 
 def test_crash_from_map_in_arrow_arrow_writer():
@@ -93,16 +100,7 @@ def test_crash_from_map_in_arrow_arrow_writer():
     ]
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
-    def f(it):
-        import importlib
-
-        mod = importlib.import_module("datasets.arrow_writer")
-
-        for batch in it:
-            mod.ArrowWriter("dummy.txt")
-            yield batch
-
-    df.mapInArrow(f, df.schema).collect()
+    df.mapInArrow(fff, df.schema).collect()
 
 
 def test_crash_from_order_by_partition():
