@@ -1,8 +1,6 @@
 import pyarrow as pa
 import pyspark
 
-from datasets.arrow_writer import ArrowWriter, KeyHasher
-
 
 def test_this_is_fine():
     spark = (
@@ -20,8 +18,10 @@ def test_this_is_fine():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
+        from datasets.arrow_writer import KeyHasher
+
         for batch in it:
-            KeyHasher("")
+            KeyHasher
             yield batch
 
     df.mapInArrow(f, df.schema).collect()
@@ -43,6 +43,9 @@ def test_crash_from_map_in_arrow_group_by():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
+        from datasets.arrow_writer import KeyHasher
+
+        KeyHasher("")
         for batch in it:
             yield batch
 
@@ -87,6 +90,8 @@ def test_crash_from_map_in_arrow_arrow_writer():
     df = spark.createDataFrame(data, "col_1: string, col_2: int, col_3: float")
 
     def f(it):
+        from datasets.arrow_writer import ArrowWriter
+
         for batch in it:
             ArrowWriter(stream=pa.output_stream("dummy.txt"))
             yield batch
